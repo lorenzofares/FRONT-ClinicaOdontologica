@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clínica Odontológica</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -14,13 +14,13 @@
         <!-- Buscar Paciente por ID -->
         <div class="card mt-3">
             <div class="card-header">
-                <h2 class="text-center">Buscar Paciente por ID</h2>
+                <h2 class="text-center">Buscar Odontologo por ID</h2>
             </div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <input type="number" id="searchId" class="form-control" placeholder="Ingrese ID del Paciente">
                     <div class="input-group-append">
-                        <button class="btn btn-primary" id="searchPatientBtn">Buscar</button>
+                        <button class="btn btn-primary" id="searchOdontologoBtn">Buscar</button>
                     </div>
                 </div>
                 <div id="searchResult" class="mt-3"></div>
@@ -30,34 +30,26 @@
         <!-- Agregar o Editar Paciente -->
         <div class="card mt-3">
             <div class="card-header">
-                <h2 class="text-center">Agregar o Editar Paciente</h2>
+                <h2 class="text-center">Agregar o Editar Odontologo</h2>
             </div>
             <div class="card-body">
-                <form id="patient-form">
-                    <input type="hidden" id="patientId">
+                <form id="odontologo-form">
+                    <input type="hidden" id="odontologoId">
                     <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="apellido">Apellido</label>
-                            <input type="text" id="apellido" class="form-control" required>
-                        </div>
                         <div class="form-group col-md-4">
                             <label for="nombre">Nombre</label>
                             <input type="text" id="nombre" class="form-control" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="dni">DNI</label>
-                            <input type="text" id="dni" class="form-control" required>
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" class="form-control" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="fechaIngreso">Fecha de Ingreso</label>
-                            <input type="date" id="fechaIngreso" class="form-control" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="domicilio">Domicilio</label>
-                            <input type="text" id="domicilio" class="form-control" required>
+                            <label for="numeroMatricula">Numero de Matricula</label>
+                            <input type="text" id="numeroMatricula" class="form-control" required>
                         </div>
                         
-                    <button type="submit" class="btn btn-primary btn-block">Guardar Paciente</button>
+                    <button type="submit" class="btn btn-primary btn-block">Guardar Odontologo</button>
                 </form>
             </div>
         </div>
@@ -65,27 +57,25 @@
         <!-- Listar Pacientes -->
         <div class="card mt-4">
             <div class="card-header">
-                <h2 class="text-center">Lista de Pacientes</h2>
+                <h2 class="text-center">Lista de Odontologo</h2>
             </div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Apellido</th>
                             <th>Nombre</th>
-                            <th>DNI</th>
-                            <th>Fecha de Ingreso</th>
-                            <th>Domicilio</th>
+                            <th>Apellido</th>
+                            <th>Numero de Matricula</th>
                         </tr>
                     </thead>
-                    <tbody id="patient-list">
-                        <!-- Pacientes serán listados aquí -->
+                    <tbody id="odontologo-list">
+                        <!-- Odontologos serán listados aquí -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <script src="js/paciente.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

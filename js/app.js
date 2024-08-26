@@ -1,149 +1,142 @@
-const apiUrl = 'http://localhost:8080/paciente';
+const apiUrl = 'http://localhost:8080/odontologo';
 
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("patient-form");
-    const patientList = document.getElementById("patient-list");
-    const searchPatientBtn = document.getElementById("searchPatientBtn");
+    const form = document.getElementById("odontologo-form");
+    const odontologoList = document.getElementById("odontologo-list");
+    const searchOdontologoBtn = document.getElementById("searchOdontologoBtn");
     const searchResult = document.getElementById("searchResult");
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-        const patientId = document.getElementById("patientId").value;
-        if (patientId) {
-            updatePatient(patientId);
+        const odontologoId = document.getElementById("odontologoId").value;
+        if (odontologoId) {
+            updateOdontologo(odontologoId);
         } else {
-            addPatient();
+            addOdontologo();
         }
     });
 
-    searchPatientBtn.addEventListener("click", function () {
+    searchOdontologoBtn.addEventListener("click", function () {
         const searchId = document.getElementById("searchId").value;
         if (searchId) {
-            searchPatientById(searchId);
+            searchOdontologoById(searchId);
         }
     });
 
-    function addPatient() {
-        const patient = {
+    function addOdontologo() {
+        const odontologo = {
             nombre: document.getElementById("nombre").value,
             apellido: document.getElementById("apellido").value,
-            dni: document.getElementById("dni").value,
-            fechaIngreso: document.getElementById("fechaIngreso").value,
-            domicilio: document.getElementById("domicilio").value
+            numeroMatricula: document.getElementById("numeroMatricula").value,
+            
+            
         };
 
-        fetch(apiUrl, {
+        fetch(`${apiUrl}/agregar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(patient)
+            body: JSON.stringify(odontologo)
         })
         .then(response => response.json())
         .then(() => {
             form.reset();
-            loadPatients();
+            loadOdontologos();
         })
         .catch(error => console.error('Error:', error));
     }
 
-    function loadPatients() {
+    function loadOdontologos() {
         fetch(`${apiUrl}/buscarTodos`)
             .then(response => response.json())
-            .then(patients => renderPatients(patients))
+            .then(odontologos => renderOdontologos(odontologos))
             .catch(error => console.error('Error:', error));
     }
 
-    function renderPatients(patients) {
-        patientList.innerHTML = '';
+    function renderOdontologos(odontologos) {
+        odontologoList.innerHTML = '';
 
-        patients.forEach(patient => {
+        odontologos.forEach(odontologo => {
             const tr = document.createElement("tr");
 
             tr.innerHTML = `
-                <td>${patient.id}</td>
-                <td>${patient.apellido}</td>
-                <td>${patient.nombre}</td>
-                <td>${patient.dni}</td>
-                <td>${patient.fechaIngreso}</td>
-                <td>${patient.domicilio}</td>
+                <td>${odontologo.id}</td>
+                <td>${odontologo.nombre}</td>
+                <td>${odontologo.apellido}</td>
+                <td>${odontologo.numeroMatricula}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="editPatient(${patient.id})">Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="deletePatient(${patient.id})">Eliminar</button>
+                    <button class="btn btn-warning btn-sm" onclick="editOdontologo(${odontologo.id})">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteOdontologo(${odontologo.id})">Eliminar</button>
                 </td>
             `;
 
-            patientList.appendChild(tr);
+            odontologoList.appendChild(tr);
         });
     }
 
-    function searchPatientById(id) {
-        fetch(`${apiUrl}/${id}`)
+    function searchOdontologoById(id) {
+        fetch(`${apiUrl}/buscar/${id}`)
             .then(response => response.json())
-            .then(patient => {
-                if (patient) {
+            .then(odontologo => {
+                if (odontologo) {
                     searchResult.innerHTML = `
                         <div class="alert alert-info">
-                            <strong>ID:</strong> ${patient.id}<br>
-                            <strong>Apellido:</strong> ${patient.apellido}<br>
-                            <strong>Nombre:</strong> ${patient.nombre}<br>
-                            <strong>DNI:</strong> ${patient.dni}<br>
-                            <strong>Fecha de Ingreso:</strong> ${patient.fechaIngreso}<br>
-                            <strong>Domicilio:</strong> ${patient.domicilio}
+                            <strong>ID:</strong> ${odontologo.id}<br>
+                            <strong>Nombre:</strong> ${odontologo.nombre}<br>
+                            <strong>Apellido:</strong> ${odontologo.apellido}<br>
+                            <strong>Numero de Matricula:</strong> ${odontologo.numeroMatricula}<br>
                         </div>
                     `;
                 } else {
-                    searchResult.innerHTML = `<div class="alert alert-danger">Paciente no encontrado</div>`;
+                    searchResult.innerHTML = `<div class="alert alert-danger">Odontologo no encontrado</div>`;
                 }
             })
             .catch(error => console.error('Error:', error));
     }
 
-    window.editPatient = function(id) {
-        fetch(`${apiUrl}/${id}`)
+    window.editOdontologo = function(id) {
+        fetch(`${apiUrl}/buscar/${id}`)
             .then(response => response.json())
-            .then(patient => {
-                document.getElementById("patientId").value = patient.id;
-                document.getElementById("apellido").value = patient.apellido;
-                document.getElementById("nombre").value = patient.nombre;
-                document.getElementById("dni").value = patient.dni;
-                document.getElementById("fechaIngreso").value = patient.fechaIngreso;
-                document.getElementById("domicilio").value = patient.domicilio;
+            .then(odontologo => {
+                document.getElementById("odontologoId").value = odontologo.id;
+                document.getElementById("apellido").value = odontologo.apellido;
+                document.getElementById("nombre").value = odontologo.nombre;
+                document.getElementById("numeroMatricula").value = odontologo.numeroMatricula;
             })
             .catch(error => console.error('Error:', error));
     }
 
-    function updatePatient(id) {
-        const patient = {
+    function updateOdontologo(id) {
+        const odontologo = {
+            id:id,
             apellido: document.getElementById("apellido").value,
             nombre: document.getElementById("nombre").value,
-            dni: document.getElementById("dni").value,
-            fechaIngreso: document.getElementById("fechaIngreso").value,
-            domicilio: document.getElementById("domicilio").value
+            numeroMatricula: document.getElementById("numeroMatricula").value,
         };
 
-        fetch(`${apiUrl}/${id}`, {
+        fetch(`${apiUrl}/modificar`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(patient)
+            body: JSON.stringify(odontologo)
         })
         .then(response => response.json())
         .then(() => {
             form.reset();
-            loadPatients();
+            loadOdontologos();
         })
         .catch(error => console.error('Error:', error));
     }
 
-    window.deletePatient = function(id) {
-        fetch(`${apiUrl}/${id}`, {
+    window.deleteOdontologo = function(id) {
+        fetch(`${apiUrl}/eliminar/${id}`, {
             method: 'DELETE',
         })
-        .then(() => loadPatients())
+        .then(() => loadOdontologos())
         .catch(error => console.error('Error:', error));
     }
 
-    loadPatients();
+    loadOdontologos();
 });
