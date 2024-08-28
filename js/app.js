@@ -122,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(odontologo)
         })
-        .then(response => response.json())
         .then(() => {
             form.reset();
             loadOdontologos();
