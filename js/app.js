@@ -1,3 +1,4 @@
+
 const apiUrl = 'http://localhost:8080/odontologo';
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -79,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`${apiUrl}/buscar/${id}`)
             .then(response => response.json())
             .then(odontologo => {
-                if (odontologo) {
+                console.log(odontologo)
+                if (!odontologo.statusCode) {
                     searchResult.innerHTML = `
                         <div class="alert alert-info">
                             <strong>ID:</strong> ${odontologo.id}<br>
@@ -92,7 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     searchResult.innerHTML = `<div class="alert alert-danger">Odontologo no encontrado</div>`;
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error)
+            });
     }
 
     window.editOdontologo = function(id) {
@@ -123,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
             body: JSON.stringify(odontologo)
         })
         .then(() => {
+            document.getElementById("odontologoId").value = null;
             form.reset();
             loadOdontologos();
         })
